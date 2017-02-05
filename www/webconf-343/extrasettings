@@ -1,0 +1,42 @@
+SYNONYM=character:role
+
+# LENGTHS=option_name:min,max,escapebackslash
+LENGTHS=monsters:0,60,1
+LENGTHS=traps:0,22,1
+LENGTHS=objects:0,17,1
+LENGTHS=effects:0,29,1
+LENGTHS=dungeon:0,41,1
+LENGTHS=warnings:0,6,1
+LENGTHS=menu_deselect_all:1,1,0
+LENGTHS=menu_deselect_page:1,1,0
+LENGTHS=menu_first_page:1,1,0
+LENGTHS=menu_invert_all:1,1,0
+LENGTHS=menu_invert_page:1,1,0
+LENGTHS=menu_last_page:1,1,0
+LENGTHS=menu_next_page:1,1,0
+LENGTHS=menu_previous_page:1,1,0
+LENGTHS=menu_search:1,1,0
+LENGTHS=menu_select_all:1,1,0
+LENGTHS=menu_select_page:1,1,0
+LENGTHS=msghistory:1,3,0
+LENGTHS=fruit:0,60,0
+LENGTHS=catname:0,60,0
+LENGTHS=dogname:0,60,0
+LENGTHS=horsename:0,60,0
+LENGTHS=hp_notify_fmt:0,60,0
+LENGTHS=boulder:0,1,0
+
+ALLOWCHARS=term_rows:^[0-9]*$
+ALLOWCHARS=term_cols:^[0-9]*$
+
+# Boolean values can depend on each other.
+DEPENDS=IBMgraphics:!DECgraphics,!UTF8graphics
+DEPENDS=DECgraphics:!IBMgraphics,!UTF8graphics
+DEPENDS=UTF8graphics:!DECgraphics,!IBMgraphics
+
+EXPANDCHARLIST=warnings:concern,anxiety,disquiet,alarm,dread
+EXPANDCHARLIST=traps:arrow trap,dart trap,falling rock trap,squeaky board,bear trap,land mine,rolling boulder trap,sleeping gas trap,rust trap,fire trap,pit,spiked pit,hole,trap door,teleportation trap,level teleporter,magic portal,web,statue trap,magic trap,anti-magic field,polymorph trap
+EXPANDCHARLIST=objects:Invalid object,Weapon,Armor,Ring,Amulet,Tool,Food,Potion,Scroll,Spellbook,Wand,Gold,Gem,Boulder,Ball,Chain,Venom
+EXPANDCHARLIST=dungeon:dark part of a room,vertical wall,horizontal wall,top left corner,top right corner,bottom left corner,bottom right corner,cross wall,T up wall,T down wall,T left wall,T right wall,doorway,vertical open door,horizontal open door,vertical closed door,horizontal closed door,iron bars,tree,floor of room,dark corridor,lit corridor,staircase up,staircase down,ladder up,ladder down,altar,grave,throne,sink,fountain,pool,ice,lava,vertical open drawbridge,horizontal open drawbridge,vertical closed drawbridge,horizontal closed drawbridge,air,cloud,water
+EXPANDCHARLIST=monsters:ant,blob,cockatrice,dog,eye,feline,gremlin,humanoid,imp,jelly,kobold,leprechaun,mimic,nymph,orc,piercer,quadruped,rodent,spider,trapper,unicorn,vortex,worm,xan,light,zruty,angel,bat,centaur,dragon,elemental,fungus,gnome,giant,invisible monster,jabberwock,Kop,lich,mummy,naga,ogre,pudding,quantum mechanic,rust monster,snake,troll,umber hulk,vampire,wraith,xorn,yeti,zombie,human,ghost,golem,demon,eel,lizard,worm tail,mimic
+EXPANDCHARLIST=effects:vertical beam,horizontal beam,left-slanting beam,right-slanting beam,digging beam,camera flash beam,boomerang left,boomerang right,shield effect 1,shield effect 2,shield effect 3,shield effect 4,swallow top left,swallow top center,swallow top right,swallow middle left,swallow middle right,swallow bottom left,swallow bottom center,swallow bottom right,explosion top left,explosion top center,explosion top right,explosion center left,explosion center,explosion center right,explosion bottom left,explosion bottom center,explosion bottom right

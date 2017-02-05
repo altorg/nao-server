@@ -1,0 +1,119 @@
+autodig|Automatically dig if you're wielding a digging tool and moving into a place that can be dug.
+autopickup|Automatically pick up things onto which you move. See also <a href="#pickup_types">pickup_types</a>.
+autoquiver|Automatically quiver some suitable weapon if your quiver empties when firing.
+bones|Load bones files?
+checkpoint|Save game state after each level change, for possible recovery after program crash.
+cmdassist|Provide some additional command assistance when detecting some anticipated mistakes.
+color|Display color for different monsters, objects, and dungeon features.
+confirm|Have user confirm attacks on peaceful creatures.
+DECgraphics|Use DEC line-drawing characters.  Won't work for all terminals.
+eight_bit_tty|Pass eight-bit character values straight through to your terminal.
+extmenu|Does extended commands interface pop up a menu?
+fixinv|An object's inventory letter sticks to it when it's dropped.
+help|If more information is available for an object looked at with the '/' command, ask if you want to see it.
+hilite_pet|Visually distinguish pets from similar animals.
+hilite_hidden_stairs|Highlight items with red background if the stairs are underneath.
+hilite_obj_piles|Highlight item piles with blue background.
+IBMgraphics|Use IBM extended characters.  Won't work for all terminals.
+ignintr|Ignore interrupt signals, including breaks.
+lit_corridor|Distinguish visually between lit and unlit corridors.
+lootabc|Use the old 'a', 'b', and 'c' keyboard shortcuts when looting.
+mail|Enable mail delivery during the game.
+msg_wall_hits|Say in the message line whenever you walk against a wall. Useful for blind players.
+menu_glyphs|Show item glyphs (color and symbol) in tty menus.
+menucolors|Enable <a href="#s-menucolors">menucolors</a> you defined below. (<A HREF="http://nethackwiki.com/wiki/Menucolors">Info</A>)
+null|Send padding nulls to the terminal.
+perm_invent|If true, always display your current inventory in a window. TTY does not use this!
+prayconfirm|Prompt for confirmation before praying.
+pushweapon|Using the 'w' (wield) command when already wielding something pushes the old item into your alternate weapon slot.
+rest_on_space|Make the space bar a synonym for the '.' (rest) command.
+safe_pet|Prevent you from (knowingly) attacking your pets.
+showborn|The <A HREF="http://www.iki.fi/jslahti/nethack.html#showborn">"showborn" patch</A> will optionally add the number of each monster species created after the number of them killed, if the number is different.
+showexp|Show your accumulated experience points on bottom line.
+showrace|Display yourself as the glyph for your race, rather than the glyph for your role.
+showscore|Show your approximate accumulated score on bottom line.
+show_obj_sym|Show object symbol in menu headings if the symbols acts as a quick selection key. (<A HREF="http://bilious.alt.org/?15">Patch info</A>)
+silent|Suppress terminal beeps.
+sortpack|Sort the pack contents by type when displaying inventory.
+sound|Enable messages about what your character hears.  This has nothing to do with your computer's audio capabilities.
+sparkle|Display a sparkly effect when a monster (including yourself) is hit by an attack to which it is resistant.
+standout|Boldface monsters and "--More--".
+time|Show the elapsed game time in turns on bottom line.
+toptenwin|Put the ending display in a NetHack window instead of on stdout.
+travel|Allow the travel command.
+use_inverse|Display inverse when the game specifies it.
+verbose|Provide more commentary during the game.
+name|Set your character's name. Has no effect on nethack.alt.org
+role|Pick your type of character.
+race|Selects your race.
+gender|Your starting gender.
+align|Your starting alignment.
+catname|Name of your starting cat. See <A HREF="http://alt.org/nethack/petnames.html">what others use</A>.
+dogname|Name of your starting dog. See <A HREF="http://alt.org/nethack/petnames.html">what others use</A>.
+horsename|Name of your starting horse. See <A HREF="http://alt.org/nethack/petnames.html">what others use</A>.
+msghistory|The number of top line messages to save (and recall with ^P).
+pettype|Specify the type of your initial pet, if you are playing a character class that uses multiple types of pets.
+windowtype|Select which windowing system to use.
+boulder|Set the character used to display boulders. Set this to eg. '<tt>0</tt>' when doing Sokoban.
+disclose|What do you want to see when your game ends.  f. ex. "disclose:yi na +v -g -c"<br>y=prompt with default yes<br>n=prompt with default no<br>+=show it<br>-=don't show it<br>i=inventory<br>a=attributes<br>v=vanquished monsters<br>g=genocided monsters<br>c=conduct
+fruit|User-defineable fruit.  Default is "slime mold". See <A HREF="http://alt.org/nethack/petnames.html">what others use</A>.
+menustyle|Controls the interface used when you need to choose various objects.
+menu_headings|Controls how the headings in a menu are highlighted.
+msg_window|How messages recalled with ^P are displayed.
+number_pad|Use the number keys to move instead of the vi-keys. 0 = off, 1 = on, 2 = on, DOS compatible.
+packorder|Specify the order to list object types in, default is <tt>")[%?+!=/(*`0_</tt>
+pickup_types|Specify the object types to be picked up when <a href="#autopickup">autopickup</a> is on.
+pickup_burden|When you pick up an item that would exceed this encumbrance level, you will be asked if you want to continue.
+runmode|Controls the amount of screen updating for the map window when engaged in multi-turn movement.
+scores|Control what parts of the score list you are shown at the end.
+sortloot|The <A HREF="http://www.iki.fi/jslahti/nethack.html#sortloot">sortloot patch</A> makes it possible to configure for inventory and container's contents to be sorted by description.  If the sortpack option is on, the objects will be sorted by category first, then by description.
+suppress_alert|Suppress alert notification messages about feature changes for this and prior versions.
+use_darkgray|Use dark gray color to display black glyphs, such as black unicorns. May not work in every terminal type.
+hp_monitor|Use the hitpoint color monitor. (<A HREF="http://bilious.alt.org/?45">Patch info</A>)
+paranoid_hit|Require you to type explicit "yes" when asked to attack a peaceful monster. (Requires <tt><a href="#confirm">confirm</a></tt> to be on) (<A HREF="http://www.iki.fi/jslahti/nethack.html#paranoid">Patch info</A>)
+paranoid_quit|Require you to type explicit "yes" when asked whether you want to quit. (<A HREF="http://www.iki.fi/jslahti/nethack.html#paranoid">Patch info</A>)
+paranoid_remove|Forces the menu to be shown with the 'T' and 'R' commands even when there is only one item to be taken off or removed. (<A HREF="http://www.iki.fi/jslahti/nethack.html#paranoid">Patch info</A>)
+showbuc|Always show the "uncursed" label on objects. (<A HREF="http://bilious.alt.org/?198">Patch info</A>)
+win_edge|Align menus to the left edge of the screen. (<A HREF="http://bilious.alt.org/?14">Patch info</A>)
+quiver_fired|Quiver fired ammunition (<A HREF="http://bilious.alt.org/?287">Patch info</a>)
+botl_updates|Should the bottom status lines be updated? (Use <tt>#updatestatus</tt> extended command to update the status lines instead)
+hp_notify|Notify HP changes in the message lines at the top of the screen.
+hp_notify_fmt|Change hp_notify format. Accepts following codes:<br>%a = HP adjustment since last notification. No + or - sign<br>%c = HP adjustment sign ('+' or '-')<br>%h = Current HP<br>%m = Max. HP<br>%H = Current HP, or "max" if hp=maxhp.
+align_message|Align the message window. (windowtype:curses only)
+align_status|Align the status window. (windowtype:curses only)
+popup_dialog|Use a small popup "window" for short prompts. (windowtype:curses only)
+windowborders|Controls the usage of window borders for the main NetHack windows (message, map, and status windows). 1=draw borders, 2=no borders, 3=allow code to decide depending on terminal size. (windowtype:curses only)
+splash_screen|Whether or not to display a fancy ascii-graphics splash screen on startup. (windowtype:curses only)
+petattr|Text attribute used to highlight pets. Bold, Inverse, Underline, blinK, iTalic, Rightline, or Leftline. (windowtype:curses only)
+guicolor|Controls whether color and attributes are used for menu headers, window borders, message text, etc. (windowtype:curses only)
+cursesgraphics|Use extended character set.  (windowtype:curses only)
+monsters|Set the character symbols for displaying the monsters.
+pickup_thrown|If <tt>pickup_thrown</tt> and <tt><a href="#autopickup">autopickup</a></tt> are both on, you'll automatically pick up things you threw. (<a href="http://bilious.alt.org/?98">Patch info</a>)
+tombstone|Print an ASCII tombstone when you die.
+legacy|Display an introductory message when starting the game.
+warnings|Set the character symbols for displaying the warnings.
+statuscolors|Color HP, Pw and other things on the status lines. (Need to define <a href="#s-statuscolor">STATUSCOLOR</a> lines)
+news|Show the NetHack 'news' file, if present.
+hitpointbar|The name and rank text in status line is colored according to <tt><a href="#statuscolors">statuscolors</a></tt> and how much HP you have left.
+vt_tiledata|Output special codes to enable tiles (See <a href="http://www.junction404.com/#ebonhack">EbonHack</a>)
+term_rows|Number of rows in your terminal. Usually autodetected. (windowtype:curses only)
+term_cols|Number of columns in your terminal. Usually autodetected. (windowtype:curses only)
+objects|Set symbols for objects.
+traps|Set symbols for traps.
+dungeon|Set symbols for dungeon features.
+effects|Set symbols for effects.
+menu_deselect_all|Key to deselect all items in menus.
+menu_deselect_page|Key to deselect current page of items in menus.
+menu_first_page|Key to move to the first page in menus.
+menu_invert_all|Key to invert the selections on all pages in menus.
+menu_invert_page|Key to invert the selections on current page in menus.
+menu_last_page|Key to move to the last page in menus.
+menu_next_page|Key to move to the next page in menus.
+menu_previous_page|Key to move to the previous page in menus.
+menu_search|Key to search for items in menus.
+menu_select_all|Key to select all items in menus.
+menu_select_page|Key to select all items in current page in menus.
+apexception_regex|<a href="#s-ape">AUTOPICKUP_EXCEPTION</a>-lines use regular expressions.
+msgtype_regex|<a href="#s-msgtype">MSGTYPE</a>-lines use regular expressions.
+item_use_menu|Does the inventory allow selecting an item and then showing a menu with actions you can perform with the item.
+UTF8graphics|Use UTF-8 characters.  Won't work for all terminals.

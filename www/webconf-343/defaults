@@ -1,0 +1,79 @@
+OPTIONS=noDECgraphics,noIBMgraphics,noUTF8graphics
+OPTIONS=autodig,!autopickup,autoquiver,checkpoint,nocmdassist,color,confirm
+OPTIONS=noeight_bit_tty,noextmenu,fixinv,help,hilite_pet
+OPTIONS=noignintr,legacy,news,lit_corridor,nolootabc,mail,menucolors
+OPTIONS=null,paranoid_hit,paranoid_quit,paranoid_remove,prayconfirm,pushweapon,rest_on_space,safe_pet
+OPTIONS=noshowborn,noshowbuc,showexp,noshowrace,showscore,silent,sortpack,sound,sparkle
+OPTIONS=nostandout,time,tombstone,travel,nouse_darkgray,nouse_inverse,verbose,nowin_edge
+OPTIONS=noshow_obj_sym,bones,quiver_fired,botl_updates,nohp_notify,hp_notify_fmt:[HP%c%a]
+OPTIONS=pickup_thrown,statuscolors,hitpointbar
+OPTIONS=novt_tiledata
+OPTIONS=item_use_menu
+OPTIONS=nohilite_hidden_stairs,nohilite_obj_piles
+OPTIONS=nomsg_wall_hits,nomenu_glyphs
+
+OPTIONS=windowtype:tty
+OPTIONS=align_message:top
+OPTIONS=align_status:bottom
+OPTIONS=nopopup_dialog
+OPTIONS=windowborders:3
+OPTIONS=nosplash_screen
+OPTIONS=petattr:u
+OPTIONS=guicolor
+OPTIONS=cursesgraphics
+OPTIONS=term_rows:,term_cols:
+
+OPTIONS=role:,race:,gender:,align:,catname:,dogname:
+OPTIONS=horsename:,msghistory:20,pettype:
+OPTIONS=boulder:,disclose:yi ya yv yg yc,fruit:,menustyle:full
+OPTIONS=menu_headings:inverse,msg_window:full,number_pad:0
+OPTIONS=packorder:")[%?+!=/(*`0_
+OPTIONS=pickup_burden:unencumbered,pickup_types:
+OPTIONS=runmode:walk,scores:,sortloot:none,suppress_alert:3.3.1
+OPTIONS=monsters:abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@ '&;:~]
+OPTIONS=dungeon: |--------||.-|++##.##<><>_|\\#{}.}..## #}
+OPTIONS=objects:])[="(%!?+/$*`0_.
+OPTIONS=effects:|-\/*!)(0#@*/-\\||\\-//-\\| |\\-/
+OPTIONS=traps:^^^^^^^^^^^^^^^^^"^^^^
+#OPTIONS=graphics: FIXME: find default values for this
+OPTIONS=warnings:012345
+OPTIONS=menu_deselect_all:-
+OPTIONS=menu_deselect_page:\
+OPTIONS=menu_first_page:^
+OPTIONS=menu_invert_all:@
+OPTIONS=menu_invert_page:~
+OPTIONS=menu_last_page:|
+OPTIONS=menu_next_page:>
+OPTIONS=menu_previous_page:<
+OPTIONS=menu_search::
+OPTIONS=menu_select_all:.
+OPTIONS=menu_select_page:,
+
+OPTIONS=!apexception_regex,!msgtype_regex
+
+# hidden options we don't care about, but we handle anyway, invisibly.
+OPTIONS=~mouse_support,~fullscreen,~vary_msgcount:20
+OPTIONS=~altmeta,~ascii_map,~asksavedisk,~BIOS
+OPTIONS=~checkspace,~fast_map,~flush,~guicolor
+OPTIONS=~large_font,~Macgraphics,~menu_tab_sep,~page_wait
+OPTIONS=~sanity_check,~softkeyboard,~tiled_map,~wraptext
+OPTIONS=~altkeyhandler:
+OPTIONS=~female,~male,~name
+OPTIONS=~font_map,~font_menu,~font_message,~font_status
+OPTIONS=~font_size_map,~font_size_menu,~font_size_message,~font_size_status
+OPTIONS=~font_text,~font_size_text
+OPTIONS=~map_mode
+OPTIONS=~menu_tab_sep
+# FIXME: does curses implement perm_invent?
+OPTIONS=~perm_invent
+OPTIONS=~player_selection
+OPTIONS=~preload_tiles
+OPTIONS=~rawio,~soundcard
+OPTIONS=~scroll_amount:,~scroll_margin:
+OPTIONS=~subkeyvalue:
+OPTIONS=~tile_width:,~tile_height:,~tile_file:,~tiled_map
+OPTIONS=~timed_delay,~notoptenwin,~video:,~videocolors:,~videoshades:
+OPTIONS=~windowcolors:
+
+
+OPTIONS=~hp_monitor
