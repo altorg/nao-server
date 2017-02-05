@@ -6,9 +6,22 @@
 
 DATESTAMP=`date +%Y%m%d-%H%M%S`
 NAO_CHROOT=/opt/nethack/nao-chroot-autogen-$DATESTAMP
-CHROOT_DIRS=(lib lib32 lib64)
-CHROOT_LIBS=(lib/ld-linux.so.2 lib32/ld-linux.so.2 lib32/libc.so.6 lib32/libncurses.so.5 \
-lib32/libtinfo.so.5)
+CHROOT_DIRS=(lib lib/x86_64-linux-gnu lib32 lib64)
+CHROOT_LIBS=( \
+lib/ld-linux.so.2 \
+lib/x86_64-linux-gnu/libutil.so.1 \
+lib/x86_64-linux-gnu/libc.so.6 \
+lib/x86_64-linux-gnu/libncurses.so.5 \
+lib/x86_64-linux-gnu/libpthread.so.0 \
+lib/x86_64-linux-gnu/libtinfo.so.5 \
+lib/x86_64-linux-gnu/libcrypt.so.1 \
+lib/x86_64-linux-gnu/libdl.so.2 \
+lib/x86_64-linux-gnu/libncursesw.so.5 \
+lib32/ld-linux.so.2 \
+lib32/libc.so.6 \
+lib32/libncurses.so.5 \
+lib32/libtinfo.so.5
+)
 
 # generate chroot
 for i in ${CHROOT_DIRS[@]}; do
