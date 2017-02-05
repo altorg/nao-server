@@ -15,7 +15,8 @@ for i in ${CHROOT_DIRS[@]}; do
 	echo "Creating $NAO_CHROOT/$i"
 	mkdir --parents $NAO_CHROOT/$i
 done
-# 
+# copy limited libs set from base OS into chroot
+# everything not in this will be statically linked in
 for i in ${CHROOT_LIBS[@]}; do
 	if [ -f /$i ]
 	then
