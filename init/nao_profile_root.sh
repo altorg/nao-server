@@ -1,0 +1,1 @@
+NAO_MYSQL_ROOT=password
