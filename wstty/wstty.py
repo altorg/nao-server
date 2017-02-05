@@ -1,5 +1,6 @@
 # pip install twisted six autobahn
 # twistd -y wstty.py
+# received from kerio. Should probably get proper copyright notice.
 
 LAUNCHER = ["/opt/nethack/nethack.alt.org/dgamelaunch"]
 #ENDPOINT = "unix:/tmp/wstty"

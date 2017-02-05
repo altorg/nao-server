@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>NAO Web Term</title>
+    <link href="fonts.css" rel="stylesheet" type="text/css">
+    <script src="//ajax.googleapis.com/ajax/libs/webfont/1.5.3/webfont.js">
+    </script>
+    <script src="hterm_all.js"></script>
+    <script src="wstty.js"></script>
+    <style>
+      body {
+          margin: 0px;
+      }
+      #wstty {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+      }
+      #menubar {
+          height: 25px;
+          background-color: #aaaaaa;
+      }
+      #menubar select {
+          float: right;
+          height: 100%;
+      }
+      #termcontainer {
+          height: calc(100% - 25px);
+      }
+      #terminal {
+          position: relative;
+          width: 100%;
+          height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wstty">
+    <div id="menubar">
+      <select id="tileset" disabled>
+        <option value="">no tileset</option>
+      </select>
+      <select id="font" disabled>
+        <option value='DejaVu Sans Mono'>DejaVu Sans Mono</option>
+        <option value='Square'>Square</option>
+      </select>
+    </div>
+    <div id="termcontainer"><div id="terminal"></div></div>
+    </div>
+  </body>
+</html>

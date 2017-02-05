@@ -1,0 +1,124 @@
+hterm.defaultStorage = new lib.Storage.Memory();
+
+[["alt-sends-what", "browser-key"],
+ ["background-color", "#000000"],
+ ["cursor-color", "rgba(170, 170, 170, 0.5)"],
+ ["color-palette-overrides", ["#000000", "#aa0000", "#00aa00", "#aa5500",
+                              "#0000aa", "#aa00aa", "#00aaaa", "#aaaaaa",
+                              "#555555", "#ff5555", "#55ff55", "#ffff55",
+                              "#5555ff", "#ff55ff", "#55ffff", "#ffffff"]],
+ ["enable-bold", false],
+ ["font-family", '"DejaVu Sans Mono", monospace'],
+ ["font-smoothing", ""],
+ ["foreground-color", "#aaaaaa"],
+ ["scrollbar-visible", false],
+].forEach(function(v) {
+  hterm.PreferenceManager.defaultPreferences[v[0]][1] = v[1];
+});
+
+WSTTY = function(argv) {
+    this.io = argv.io;
+    this.ws = null;
+    this.address = argv.argString;
+};
+
+WSTTY.prototype.sendString = function(s) {
+    if (this.ws && this.ws.readyState == 1) {
+        var buf = new Uint8Array(s.length);
+        for (var i = 0, l = s.length; i < l; i++)
+            buf[i] = s.charCodeAt(i);
+        this.ws.send(buf);
+    } else if (s == "c" && (!this.ws || this.ws.readyState >= 2)) {
+        this.connect(this.address);
+    }
+};
+
+WSTTY.prototype.connect = function(addr) {
+    this.statusMenu("Connecting...", true);
+    this.ws = new WebSocket(addr +
+                            "?c=" + this.io.columnCount +
+                            "&l=" + this.io.rowCount);
+    this.ws.binaryType = "arraybuffer";
+
+    this.ws.onmessage = function(msg) {
+        if (!msg || !msg.data)
+            return;
+        if (typeof msg.data === "string")
+            return;
+        this.io.writeUTF8(
+            String.fromCharCode.apply(
+                String, new Uint8Array(msg.data)));
+    }.bind(this)
+    this.ws.onerror = this.statusMenu.bind(this, "Connection error.", false);
+    this.ws.onclose = this.statusMenu.bind(this, "Connection closed.", false);
+};
+
+WSTTY.prototype.statusMenu = function(status, grayed_c) {
+    var c = "c) Connect";
+    if (grayed_c) {
+        c = "\x1b[30;1m" + c + "\x1b[0m";
+    }
+    this.io.writeUTF16([
+        '\x1b[m\x1b[2J\x1b[H',
+        ' ## \x1b[30;1mnethack.alt.org - https://alt.org/nethack/\x1b[0m',
+        ' ## Games on this server are recorded for ' +
+            'in-progress viewing and playback!',
+        ' ##',
+        ' ## ' + status,
+        '',
+        ' \x1b[0m             ' + c,
+        '',
+        ' => '
+    ].join("\r\n"));
+};
+
+WSTTY.prototype.run = function() {
+    this.io = this.io.push();
+    this.io.sendString = this.io.onVTKeystroke = this.sendString.bind(this);
+    this.statusMenu("Not connected.");
+};
+
+window.onload = function() { lib.init(function() {
+    var tileset = document.getElementById("tileset");
+    ["geoduck", "lagged", "vanilla", "dawnhack",
+     "itakura", "absurd", "nextstep"].forEach(function(name) {
+         tileset.add(new Option(name, "tileset/" + name + ".css"));
+     });
+
+    var term = new hterm.Terminal();
+    window.term_ = term
+
+    term.onTerminalReady = function () {
+        var tileset = document.getElementById("tileset");
+        tileset.onchange = function(e) {
+            term.getPrefs().set("user-css", this.value);
+            term.focus();
+        };
+        tileset.disabled = false;
+
+        var font = document.getElementById("font");
+        font.onchange = function(e) {
+            term.getPrefs().set("font-family",
+                                '"' + this.value + '", monospace');
+            term.focus();
+        }
+        font.disabled = false;
+
+        WebFont.load({
+            custom: {
+                families: ["DejaVu Sans Mono", "Square"],
+                urls: ["fonts.css"]
+            },
+            context: term.getDocument().defaultView,
+            active: function() {
+                term.setFontSize(0);
+                window.setTimeout(function() {
+                    term.runCommandClass(WSTTY,
+                        "wss://" + window.location.hostname + "/wstty-wss");
+                }, 0);
+            },
+            timeout: 3600000
+        });
+    };
+    term.decorate(document.getElementById("terminal"));
+});};

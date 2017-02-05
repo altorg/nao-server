@@ -1,0 +1,13 @@
+@font-face {
+    font-family: "DejaVu Sans Mono";
+    src: local("DejaVu Sans Mono"),
+         local("DejaVuSansMono"),
+         url("dvsm.ttf");
+}
+
+@font-face {
+    font-family: "Square";
+    src: local("Square"),
+         local("Square-Regular"),
+         url("square.ttf");
+}
