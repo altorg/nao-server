@@ -1,0 +1,61 @@
+
+label.bool {
+    display:block;
+    cursor:pointer;
+}
+
+input[type=text] {
+    font-family:monospace;
+}
+
+.webconf_js_tools a {
+    padding:0.2em;
+}
+
+.expand_charlist:hover,
+.webconf_js_tools a:hover {
+    text-shadow: 1px 0;
+    background-color: pink;
+}
+
+.expand_charlist {
+    color: blue;
+}
+
+.expanded_charlist table {
+    background-color:white;
+}
+.expanded_charlist table td {
+    background-color:white !important;
+}
+
+table {
+    margin-top: 4em;
+    border-collapse: collapse;
+    border: none;
+}
+th, tr, td {
+    border: none;
+}
+td {
+    padding: 0.25em;
+}
+
+.bool_yes, .bool_no {
+    background-color: transparent;
+    font-weight: normal;
+}
+.bool_yes.checked {
+    background-color: #afa !important;
+    font-weight: bold;
+}
+.bool_no.checked {
+    background-color: #faa !important;
+    font-weight: bold;
+}
+tr:hover .bool_yes.checked {
+    background-color: #7d7 !important;
+}
+tr:hover .bool_no.checked {
+    background-color: #d77 !important;
+}
