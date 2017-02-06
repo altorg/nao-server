@@ -117,11 +117,11 @@ mknod urandom c 1 9
 cd ..
 
 if [ -f $DGL_CONFIG ]; then
+  echo "$DGL_CONFIG exists!"
+else
   echo "Copying $DGL_GIT/examples/dgamelaunch.conf"
   cp "$DGL_GIT/examples/dgamelaunch.conf" $DGL_CONFIG
   echo "*** Edit $DGL_CONFIG to suit your needs."
-else
-  echo "$DGL_CONFIG exists!"
 fi
 
 echo "Creating etc/localtime"
