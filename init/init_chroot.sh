@@ -22,7 +22,7 @@ COMPRESSBIN="/bin/gzip"
 NH_GIT="/home/build/NetHack"
 NH_BRANCH="3.4.3"
 # HACKDIR from include/config.h; aka nethack subdir inside chroot
-NHSUBDIR="/nh343/"
+NHSUBDIR="nh343"
 # VAR_PLAYGROUND from include/unixconf.h
 NH_VAR_PLAYGROUND="/nh343/var/"
 # only define this if dgl was configured with --enable-sqlite
@@ -141,11 +141,10 @@ cp "$DGL_GIT/examples/dgl-banner" .
 cp "$DGL_GIT/dgl-default-rcfile" "dgl-default-rcfile.nh343"
 chmod go+r dgl_menu_main_anon.txt dgl_menu_main_user.txt dgl-banner dgl-default-rcfile.nh343
 
-NHSUBDIR="`echo ${NHSUBDIR%/}`"
-NHSUBDIR="`echo ${NHSUBDIR#/}`"
+echo "Making $NAO_CHROOT/$NHSUBDIR"
+mkdir "$NAO_CHROOT/$NHSUBDIR"
 
-mkdir "$CHROOT/$NHSUBDIR"
-
+NETHACKBIN="$NETHACK_GIT/src/nethack"
 if [ -n "$NETHACKBIN" -a ! -e "$NETHACKBIN" ]; then
   errorexit "Cannot find NetHack binary $NETHACKBIN"
 fi
@@ -153,15 +152,12 @@ fi
 if [ -n "$NETHACKBIN" -a -e "$NETHACKBIN" ]; then
   echo "Copying $NETHACKBIN"
   cd "$NHSUBDIR"
-  NHBINFILE="`basename $NETHACKBIN`.`date +%Y%m%d`"
+  NHBINFILE="`basename $NETHACKBIN`."-".$DATESTAMP
   cp "$NETHACKBIN" "$NHBINFILE"
   ln -s "$NHBINFILE" nethack
   LIBS="$LIBS `findlibs $NETHACKBIN`"
-  cd "$CHROOT"
+  cd "$NAO_CHROOT"
 fi
-
-
-NH_PLAYGROUND_FIXED="`echo ${NH_PLAYGROUND_FIXED%/}`"
 
 if [ -n "$NH_PLAYGROUND_FIXED" -a -d "$NH_PLAYGROUND_FIXED" ]; then
   echo "Copying NetHack playground stuff."
