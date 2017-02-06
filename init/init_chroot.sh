@@ -9,6 +9,8 @@
 # autonamed chroot directory. Can rename.
 DATESTAMP=`date +%Y%m%d-%H%M%S`
 NAO_CHROOT=/opt/nethack/nao-chroot-autogen-$DATESTAMP
+# config outside of chroot
+DGL_CONFIG="/opt/nethack/dgamelaunch.conf"
 # already compiled versions of dgl and nethack
 DGL_GIT="/home/build/dgamelaunch"
 NETHACK_GIT="/home/build/NetHack"
@@ -114,12 +116,16 @@ cd dev
 mknod urandom c 1 9
 cd ..
 
-echo "Copying $DGL_GIT/examples/dgamelaunch.conf"
-cd etc
-cp "$DGL_GIT/examples/dgamelaunch" .
-echo "*** Edit $DGL_CONFIG to suit your needs."
-[ -f /etc/localtime ] && cp /etc/localtime .
-cd ..
+if [ -f $DGL_CONFIG ]; then
+  echo "Copying $DGL_GIT/examples/dgamelaunch.conf"
+  cp "$DGL_GIT/examples/dgamelaunch.conf" $DGL_CONFIG
+  echo "*** Edit $DGL_CONFIG to suit your needs."
+else
+  echo "$DGL_CONFIG exists!"
+fi
+
+echo "Creating etc/localtime"
+[ -f /etc/localtime ] && cp /etc/localtime etc
 
 echo "Copying text editors 'ee' and 'virus'"
 cd bin
