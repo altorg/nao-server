@@ -114,9 +114,9 @@ cd dev
 mknod urandom c 1 9
 cd ..
 
-echo "Copying $DGL_CONFIG"
+echo "Copying $DGL_GIT/examples/dgamelaunch.conf"
 cd etc
-cp "$DGL_CONFIG" .
+cp "$DGL_GIT/examples/dgamelaunch" .
 echo "*** Edit $DGL_CONFIG to suit your needs."
 [ -f /etc/localtime ] && cp /etc/localtime .
 cd ..
