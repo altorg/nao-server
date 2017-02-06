@@ -152,41 +152,26 @@ fi
 if [ -n "$NETHACKBIN" -a -e "$NETHACKBIN" ]; then
   echo "Copying $NETHACKBIN"
   cd "$NHSUBDIR"
-  NHBINFILE="`basename $NETHACKBIN`."-".$DATESTAMP
+  NHBINFILE="`basename $NETHACKBIN`"."-".$DATESTAMP
   cp "$NETHACKBIN" "$NHBINFILE"
   ln -s "$NHBINFILE" nethack
   LIBS="$LIBS `findlibs $NETHACKBIN`"
   cd "$NAO_CHROOT"
 fi
 
-if [ -n "$NH_PLAYGROUND_FIXED" -a -d "$NH_PLAYGROUND_FIXED" ]; then
-  echo "Copying NetHack playground stuff."
-  NHFILES="*.lev *.dat cmdhelp data dungeon help hh history license opthelp options oracles recover rumors wizhelp"
-  for fil in $NHFILES; do
-    cp $NH_PLAYGROUND_FIXED/$fil "$CHROOT/$NHSUBDIR/"
-  done
-fi
-
-
-NH_VAR_PLAYGROUND="`echo ${NH_VAR_PLAYGROUND%/}`"
-NH_VAR_PLAYGROUND="`echo ${NH_VAR_PLAYGROUND#/}`"
+echo "Copying NetHack playground stuff"
+cp "$NAO_GIT/dat/nhdat" "$NAO_CHROOT/$NHSUBDIR"
 
 echo "Creating NetHack variable dir stuff."
-if [ -n "$NH_VAR_PLAYGROUND" ]; then
-  mkdir -p "$CHROOT/$NH_VAR_PLAYGROUND"
-  chown -R "$USRGRP" "$CHROOT/$NH_VAR_PLAYGROUND"
-fi
-mkdir -p "$CHROOT/$NH_VAR_PLAYGROUND/save"
-chown -R "$USRGRP" "$CHROOT/$NH_VAR_PLAYGROUND/save"
-touch "$CHROOT/$NH_VAR_PLAYGROUND/logfile"
-touch "$CHROOT/$NH_VAR_PLAYGROUND/perm"
-touch "$CHROOT/$NH_VAR_PLAYGROUND/record"
-touch "$CHROOT/$NH_VAR_PLAYGROUND/xlogfile"
+mkdir -p "$NAO_CHROOT/$NHSUBDIR/var"
+chown -R "$USRGRP" "$NAO_CHROOT/$NHSUBDIR/var"
+mkdir -p "$NAO_CHROOT/$NHSUBDIR/var/save"
+chown -R "$USRGRP" "$NAO_CHROOT/$NHSUBDIR/var/save"
 
-chown -R "$USRGRP" "$CHROOT/$NHSUBDIR"
-chown -R "$USRGRP" "$CHROOT/$NH_VAR_PLAYGROUND"
-
-
+touch "$NAO_CHROOT/$NHSUBDIR/var/logfile"
+touch "$NAO_CHROOT/$NHSUBDIR/var/perm"
+touch "$NAO_CHROOT/$NHSUBDIR/var/record"
+touch "$NAO_CHROOT/$NHSUBDIR/var/xlogfile"
 
 # Curses junk
 if [ -n "$TERMDATA" ]; then
@@ -201,14 +186,12 @@ if [ -n "$TERMDATA" ]; then
     done
 fi
 
-
 LIBS=`for lib in $LIBS; do echo $lib; done | sort | uniq`
 echo "Copying libraries:" $LIBS
 for lib in $LIBS; do
         mkdir -p "$CHROOT`dirname $lib`"
         cp $lib "$CHROOT$lib"
 done
-
 
 echo "Finished."
 
