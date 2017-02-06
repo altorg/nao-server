@@ -152,7 +152,7 @@ fi
 if [ -n "$NETHACKBIN" -a -e "$NETHACKBIN" ]; then
   echo "Copying $NETHACKBIN"
   cd "$NHSUBDIR"
-  NHBINFILE="`basename $NETHACKBIN`"."-".$DATESTAMP
+  NHBINFILE="`basename $NETHACKBIN`-$DATESTAMP"
   cp "$NETHACKBIN" "$NHBINFILE"
   ln -s "$NHBINFILE" nethack
   LIBS="$LIBS `findlibs $NETHACKBIN`"
