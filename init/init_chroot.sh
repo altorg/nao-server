@@ -59,8 +59,6 @@ if [ -z "$TERMDATA" ]; then
     fi
 fi
 
-DGLFILE="dgamelaunch.$DATESTAMP"
-
 echo "ldd $DGL_BIN"
 LIBS="`findlibs $DGL_BIN`"
 echo "...$LIBS"
@@ -68,13 +66,19 @@ echo "...$LIBS"
 ###################
 # generate chroot
 umask 022
+
 echo "Creating $NAO_CHROOT"
 mkdir --parents "$NAO_CHROOT" || errorexit "Cannot create chroot"
 cd "$NAO_CHROOT"
+
 echo "Creating top level directories"
 mkdir dgldir etc lib mail usr bin
 chown "$USRGRP" dgldir mail
-cp "$DGL_BIN" dgamelaunch
+
+DGLFILE="dgamelaunch.$DATESTAMP"
+echo "Copying $DGL_BIN to $DGLFILE and symlinking to dgamelaunch"
+cp "$DGL_BIN" "$DGLFILE"
+ln -s "$DGLFILE" dgamelaunch
 
 echo "Creating inprogress and userdata directories"
 mkdir -p "$NAO_CHROOT/dgldir/inprogress-nh343"
@@ -82,12 +86,11 @@ mkdir -p "$NAO_CHROOT/dgldir/userdata"
 chown "$USRGRP" "$NAO_CHROOT/dgldir/inprogress-nh343"
 chown "$USRGRP" "$NAO_CHROOT/dgldir/userdata"
 
-
+echo "Creating SQLite database at $SQLITE_DBFILE"
 if [ -n "$SQLITE_DBFILE" ]; then
   if [ "x`which sqlite3`" = "x" ]; then
       errorexit "No sqlite3 found."
   else
-      echo "Creating SQLite database at $SQLITE_DBFILE"
       SQLITE_DBFILE="`echo ${SQLITE_DBFILE%/}`"
       SQLITE_DBFILE="`echo ${SQLITE_DBFILE#/}`"
       sqlite3 "$NAO_CHROOT/$SQLITE_DBFILE" "create table dglusers (id integer primary key, username text, email text, env text, password text, flags integer);"
@@ -102,7 +105,9 @@ if [ -n "$COMPRESSBIN" -a -e "`which $COMPRESSBIN`" ]; then
   echo "Copying $COMPRESSBIN to $COMPRESSDIR"
   mkdir -p "$COMPRESSDIR"
   cp "`which $COMPRESSBIN`" "$COMPRESSDIR/"
+  echo "Adding LIBS for $COMPRESSBIN"
   LIBS="$LIBS `findlibs $COMPRESSBIN`"
+  echo "New LIBS=$LIBS"
 fi
 
 mkdir -p dev
