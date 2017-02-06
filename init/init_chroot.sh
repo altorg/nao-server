@@ -189,8 +189,8 @@ fi
 LIBS=`for lib in $LIBS; do echo $lib; done | sort | uniq`
 echo "Copying libraries:" $LIBS
 for lib in $LIBS; do
-        mkdir -p "$CHROOT`dirname $lib`"
-        cp $lib "$CHROOT$lib"
+        mkdir -p "$NAO_CHROOT`dirname $lib`"
+        cp $lib "$NAO_CHROOT$lib"
 done
 
 echo "Finished."
