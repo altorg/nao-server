@@ -169,9 +169,13 @@ mkdir -p "$NAO_CHROOT/$NHSUBDIR/var/save"
 chown -R "$USRGRP" "$NAO_CHROOT/$NHSUBDIR/var/save"
 
 touch "$NAO_CHROOT/$NHSUBDIR/var/logfile"
+chown -R "$USRGRP" "$NAO_CHROOT/$NHSUBDIR/var/logfile"
 touch "$NAO_CHROOT/$NHSUBDIR/var/perm"
+chown -R "$USRGRP" "$NAO_CHROOT/$NHSUBDIR/var/perm"
 touch "$NAO_CHROOT/$NHSUBDIR/var/record"
+chown -R "$USRGRP" "$NAO_CHROOT/$NHSUBDIR/var/record"
 touch "$NAO_CHROOT/$NHSUBDIR/var/xlogfile"
+chown -R "$USRGRP" "$NAO_CHROOT/$NHSUBDIR/var/xlogfile"
 
 # Curses junk
 if [ -n "$TERMDATA" ]; then
