@@ -129,8 +129,8 @@ echo "Creating etc/localtime"
 
 echo "Copying text editors 'ee' and 'virus'"
 cd bin
-cp "$NETHACK_GIT/src/ee" .
-cp "$NETHACK_GIT/src/virus" .
+cp "$DGL_GIT/ee" .
+cp "$DGL_GIT/virus" .
 cd ..
 
 echo "Copying DGL examples"
