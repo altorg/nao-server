@@ -4,4 +4,4 @@ apt-get install autoconf autogen bison gcc libncursesw5-dev make
 # webserver
 apt-get install apache2 mysql-server
 # 32 bit compat for old saves
-apt-get install lib32ncursesw5 libc6-i386
+apt-get install lib32ncurses6 libc6-i386
