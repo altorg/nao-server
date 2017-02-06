@@ -46,27 +46,6 @@ findlibs()
 
 set -e
 
-###################
-# generate chroot
-umask 022
-for i in ${CHROOT_DIRS[@]}; do
-	echo "Creating $NAO_CHROOT/$i"
-	mkdir --parents $NAO_CHROOT/$i
-done
-# Copy limited libs set from base OS into chroot.
-# Everything not in this will be statically linked in.
-# Assumption is that base OS is development environment and provides the runtime libs.
-for i in ${CHROOT_LIBS[@]}; do
-	if [ -f /$i ]
-	then
-		echo "Copying /$i from base OS"
-		cp /$i $NAO_CHROOT/$i
-	else
-		echo "ERROR: No source file /$i"
-		exit 1
-	fi	
-done
-
 # termdata
 if [ -z "$TERMDATA" ]; then
     SEARCHTERMDATA="/etc/terminfo /usr/share/lib/terminfo /usr/share/terminfo /lib/terminfo"
@@ -82,21 +61,26 @@ fi
 
 DGLFILE="dgamelaunch.$DATESTAMP"
 
-echo "Setting up chroot in $CHROOT"
+echo "ldd $DGL_BIN"
+LIBS="`findlibs $DGL_BIN`"
+echo "...$LIBS"
 
-LIBS="`findlibs dgamelaunch`"
-
-mkdir -p "$CHROOT" || errorexit "Cannot create chroot"
-cd "$CHROOT"
+###################
+# generate chroot
+umask 022
+echo "Creating $NAO_CHROOT"
+mkdir --parents "$NAO_CHROOT" || errorexit "Cannot create chroot"
+cd "$NAO_CHROOT"
+echo "Creating top level directories"
 mkdir dgldir etc lib mail usr bin
 chown "$USRGRP" dgldir mail
-cp "$CURDIR/dgamelaunch" "$DGLFILE"
-ln -s "$DGLFILE" dgamelaunch
+cp "$DGL_BIN" dgamelaunch
 
-mkdir -p "$CHROOT/dgldir/inprogress-nh343"
-mkdir -p "$CHROOT/dgldir/userdata"
-chown "$USRGRP" "$CHROOT/dgldir/inprogress-nh343"
-chown "$USRGRP" "$CHROOT/dgldir/userdata"
+echo "Creating inprogress and userdata directories"
+mkdir -p "$NAO_CHROOT/dgldir/inprogress-nh343"
+mkdir -p "$NAO_CHROOT/dgldir/userdata"
+chown "$USRGRP" "$NAO_CHROOT/dgldir/inprogress-nh343"
+chown "$USRGRP" "$NAO_CHROOT/dgldir/userdata"
 
 
 if [ -n "$SQLITE_DBFILE" ]; then
@@ -106,11 +90,10 @@ if [ -n "$SQLITE_DBFILE" ]; then
       echo "Creating SQLite database at $SQLITE_DBFILE"
       SQLITE_DBFILE="`echo ${SQLITE_DBFILE%/}`"
       SQLITE_DBFILE="`echo ${SQLITE_DBFILE#/}`"
-      sqlite3 "$CHROOT/$SQLITE_DBFILE" "create table dglusers (id integer primary key, username text, email text, env text, password text, flags integer);"
-      chown "$USRGRP" "$CHROOT/$SQLITE_DBFILE"
+      sqlite3 "$NAO_CHROOT/$SQLITE_DBFILE" "create table dglusers (id integer primary key, username text, email text, env text, password text, flags integer);"
+      chown "$USRGRP" "$NAO_CHROOT/$SQLITE_DBFILE"
   fi
 fi
-
 
 if [ -n "$COMPRESSBIN" -a -e "`which $COMPRESSBIN`" ]; then
   COMPRESSDIR="`dirname $COMPRESSBIN`"
@@ -122,12 +105,10 @@ if [ -n "$COMPRESSBIN" -a -e "`which $COMPRESSBIN`" ]; then
   LIBS="$LIBS `findlibs $COMPRESSBIN`"
 fi
 
-
 mkdir -p dev
 cd dev
 mknod urandom c 1 9
 cd ..
-
 
 cd etc
 cp "$CURDIR/examples/dgamelaunch.conf" .
