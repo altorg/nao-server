@@ -1,2 +1,11 @@
+# start with ubuntu LTR
+# install deps
+os/install_packages.sh
+# get source trees
+cd /home/build
+git clone https://github.com/altorg/dgamelaunch.git
+git clone https://github.com/altorg/NetHack.git
+# build binaries
+init/build_binaries.sh
 # Create chroot
 init/init_chroot.sh
