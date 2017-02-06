@@ -177,11 +177,11 @@ touch "$NAO_CHROOT/$NHSUBDIR/var/xlogfile"
 if [ -n "$TERMDATA" ]; then
     echo "Copying termdata files from $TERMDATA"
     for termdat in $TERMDATA; do
-	mkdir -p "$CHROOT`dirname $termdat`"
+	mkdir -p "$NAO_CHROOT`dirname $termdat`"
 	if [ -d $termdat/. ]; then
-		cp -LR $termdat/. $CHROOT$termdat
+		cp -LR $termdat/. $NAO_CHROOT$termdat
 	else
-		cp $termdat $CHROOT`dirname $termdat`
+		cp $termdat $NAO_CHROOT`dirname $termdat`
 	fi
     done
 fi
