@@ -10,8 +10,8 @@
 DATESTAMP=`date +%Y%m%d-%H%M%S`
 NAO_CHROOT=/opt/nethack/nao-chroot-autogen-$DATESTAMP
 # already compiled versions of dgl and nethack
-DGL_BIN="/home/build/dgamelaunch/dgamelaunch"
-NETHACK_BIN="/home/build/NetHack/src/nethack"
+DGL_GIT="/home/build/dgamelaunch"
+NETHACK_GIT="/home/build/NetHack"
 # the user & group from dgamelaunch config file.
 USRGRP="games:games"
 # COMPRESS from include/config.h; the compression binary to copy. leave blank to skip.
@@ -59,9 +59,8 @@ if [ -z "$TERMDATA" ]; then
     fi
 fi
 
-echo "ldd $DGL_BIN"
-LIBS="`findlibs $DGL_BIN`"
-echo "...$LIBS"
+echo "Adding LIBS for $DGL_GIT/dgamelaunch"
+LIBS="`findlibs $DGL_GIT/dgamelaunch`"
 
 ###################
 # generate chroot
@@ -76,8 +75,8 @@ mkdir dgldir etc lib mail usr bin
 chown "$USRGRP" dgldir mail
 
 DGLFILE="dgamelaunch.$DATESTAMP"
-echo "Copying $DGL_BIN to $DGLFILE and symlinking to dgamelaunch"
-cp "$DGL_BIN" "$DGLFILE"
+echo "Copying $DGL_GIT/dgamelaunch to $DGLFILE and symlinking to dgamelaunch"
+cp "$DGL_GIT/dgamelaunch" "$DGLFILE"
 ln -s "$DGLFILE" dgamelaunch
 
 echo "Creating inprogress and userdata directories"
@@ -107,33 +106,33 @@ if [ -n "$COMPRESSBIN" -a -e "`which $COMPRESSBIN`" ]; then
   cp "`which $COMPRESSBIN`" "$COMPRESSDIR/"
   echo "Adding LIBS for $COMPRESSBIN"
   LIBS="$LIBS `findlibs $COMPRESSBIN`"
-  echo "New LIBS=$LIBS"
 fi
 
+echo "Creating dev/urandom"
 mkdir -p dev
 cd dev
 mknod urandom c 1 9
 cd ..
 
+echo "Copying $DGL_CONFIG"
 cd etc
-cp "$CURDIR/examples/dgamelaunch.conf" .
-echo "Edit $CHROOT/etc/dgamelaunch.conf to suit your needs."
+cp "$DGL_CONFIG" .
+echo "*** Edit $DGL_CONFIG to suit your needs."
 [ -f /etc/localtime ] && cp /etc/localtime .
 cd ..
 
-
+echo "Copying text editors 'ee' and 'virus'"
 cd bin
-cp "$CURDIR/ee" .
-cp "$CURDIR/virus" .
-echo "Copied text editors 'ee' and 'virus' to chroot."
+cp "$NETHACK_GIT/src/ee" .
+cp "$NETHACK_GIT/src/virus" .
 cd ..
 
-
-cp "$CURDIR/examples/dgl_menu_main_anon.txt" .
-cp "$CURDIR/examples/dgl_menu_main_user.txt" .
-cp "$CURDIR/examples/dgl_menu_watchmenu_help.txt" .
-cp "$CURDIR/examples/dgl-banner" .
-cp "$CURDIR/dgl-default-rcfile" "dgl-default-rcfile.nh343"
+echo "Copying DGL examples"
+cp "$DGL_GIT/examples/dgl_menu_main_anon.txt" .
+cp "$DGL_GIT/examples/dgl_menu_main_user.txt" .
+cp "$DGL_GIT/examples/dgl_menu_watchmenu_help.txt" .
+cp "$DGL_GIT/examples/dgl-banner" .
+cp "$DGL_GIT/dgl-default-rcfile" "dgl-default-rcfile.nh343"
 chmod go+r dgl_menu_main_anon.txt dgl_menu_main_user.txt dgl-banner dgl-default-rcfile.nh343
 
 NHSUBDIR="`echo ${NHSUBDIR%/}`"
