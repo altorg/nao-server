@@ -4,6 +4,7 @@
 os/install_packages.sh
 
 # get source trees
+adduser build
 cd /home/build
 git clone https://github.com/altorg/dgamelaunch.git
 git clone https://github.com/altorg/NetHack.git
