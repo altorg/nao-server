@@ -160,7 +160,7 @@ if [ -n "$NETHACKBIN" -a -e "$NETHACKBIN" ]; then
 fi
 
 echo "Copying NetHack playground stuff"
-cp "$NAO_GIT/dat/nhdat" "$NAO_CHROOT/$NHSUBDIR"
+cp "$NETHACK_GIT/dat/nhdat" "$NAO_CHROOT/$NHSUBDIR"
 
 echo "Creating NetHack variable dir stuff."
 mkdir -p "$NAO_CHROOT/$NHSUBDIR/var"
