@@ -1,29 +1,54 @@
 #!/bin/bash
 # 
-# (c)2017 Michael Andrew Streib
+# Ideas and some parts from the original dgl-create-chroot (by joshk@triplehelix.org, modifications by jilles@stack.nl)
+# More by <paxed@alt.org>
+# More by Michael Andrew Streib <dtype@dtype.org>
 # Licensed under the MIT License
 # https://opensource.org/licenses/MIT
 
+# autonamed chroot directory. Can rename.
 DATESTAMP=`date +%Y%m%d-%H%M%S`
 NAO_CHROOT=/opt/nethack/nao-chroot-autogen-$DATESTAMP
-CHROOT_DIRS=(lib lib/x86_64-linux-gnu lib32 lib64)
-CHROOT_LIBS=( \
-lib/ld-linux.so.2 \
-lib/x86_64-linux-gnu/libutil.so.1 \
-lib/x86_64-linux-gnu/libc.so.6 \
-lib/x86_64-linux-gnu/libncurses.so.5 \
-lib/x86_64-linux-gnu/libpthread.so.0 \
-lib/x86_64-linux-gnu/libtinfo.so.5 \
-lib/x86_64-linux-gnu/libcrypt.so.1 \
-lib/x86_64-linux-gnu/libdl.so.2 \
-lib/x86_64-linux-gnu/libncursesw.so.5 \
-lib32/ld-linux.so.2 \
-lib32/libc.so.6 \
-lib32/libncurses.so.5 \
-lib32/libtinfo.so.5
-)
+# already compiled versions of dgl and nethack
+DGL_BIN="/home/build/dgamelaunch/dgamelaunch"
+NETHACK_BIN="/home/build/NetHack/src/nethack"
+# the user & group from dgamelaunch config file.
+USRGRP="games:games"
+# COMPRESS from include/config.h; the compression binary to copy. leave blank to skip.
+COMPRESSBIN="/bin/gzip"
+# fixed data to copy (leave blank to skip)
+NH_GIT="/home/build/NetHack"
+NH_BRANCH="3.4.3"
+# HACKDIR from include/config.h; aka nethack subdir inside chroot
+NHSUBDIR="/nh343/"
+# VAR_PLAYGROUND from include/unixconf.h
+NH_VAR_PLAYGROUND="/nh343/var/"
+# only define this if dgl was configured with --enable-sqlite
+SQLITE_DBFILE="/dgldir/dgamelaunch.db"
+# END OF CONFIG
+##############################################################################
 
+errorexit()
+{
+    echo "Error: $@" >&2
+    exit 1
+}
+
+findlibs()
+{
+  for i in "$@"; do
+      if [ -z "`ldd "$i" | grep 'not a dynamic executable'`" ]; then
+         echo $(ldd "$i" | awk '{ print $3 }' | egrep -v ^'\(')
+         echo $(ldd "$i" | grep 'ld-linux' | awk '{ print $1 }')
+      fi
+  done
+}
+
+set -e
+
+###################
 # generate chroot
+umask 022
 for i in ${CHROOT_DIRS[@]}; do
 	echo "Creating $NAO_CHROOT/$i"
 	mkdir --parents $NAO_CHROOT/$i
@@ -41,3 +66,163 @@ for i in ${CHROOT_LIBS[@]}; do
 		exit 1
 	fi	
 done
+
+# termdata
+if [ -z "$TERMDATA" ]; then
+    SEARCHTERMDATA="/etc/terminfo /usr/share/lib/terminfo /usr/share/terminfo /lib/terminfo"
+    for dir in $SEARCHTERMDATA; do
+	if [ -e "$dir/x/xterm" ]; then
+	    TERMDATA="$TERMDATA $dir"
+	fi
+    done
+    if [ -z "$TERMDATA" ]; then
+	errorexit "Couldn't find terminfo definitions. Please specify in 'TERMDATA' variable."
+    fi
+fi
+
+DGLFILE="dgamelaunch.$DATESTAMP"
+
+echo "Setting up chroot in $CHROOT"
+
+LIBS="`findlibs dgamelaunch`"
+
+mkdir -p "$CHROOT" || errorexit "Cannot create chroot"
+cd "$CHROOT"
+mkdir dgldir etc lib mail usr bin
+chown "$USRGRP" dgldir mail
+cp "$CURDIR/dgamelaunch" "$DGLFILE"
+ln -s "$DGLFILE" dgamelaunch
+
+mkdir -p "$CHROOT/dgldir/inprogress-nh343"
+mkdir -p "$CHROOT/dgldir/userdata"
+chown "$USRGRP" "$CHROOT/dgldir/inprogress-nh343"
+chown "$USRGRP" "$CHROOT/dgldir/userdata"
+
+
+if [ -n "$SQLITE_DBFILE" ]; then
+  if [ "x`which sqlite3`" = "x" ]; then
+      errorexit "No sqlite3 found."
+  else
+      echo "Creating SQLite database at $SQLITE_DBFILE"
+      SQLITE_DBFILE="`echo ${SQLITE_DBFILE%/}`"
+      SQLITE_DBFILE="`echo ${SQLITE_DBFILE#/}`"
+      sqlite3 "$CHROOT/$SQLITE_DBFILE" "create table dglusers (id integer primary key, username text, email text, env text, password text, flags integer);"
+      chown "$USRGRP" "$CHROOT/$SQLITE_DBFILE"
+  fi
+fi
+
+
+if [ -n "$COMPRESSBIN" -a -e "`which $COMPRESSBIN`" ]; then
+  COMPRESSDIR="`dirname $COMPRESSBIN`"
+  COMPRESSDIR="`echo ${COMPRESSDIR%/}`"
+  COMPRESSDIR="`echo ${COMPRESSDIR#/}`"
+  echo "Copying $COMPRESSBIN to $COMPRESSDIR"
+  mkdir -p "$COMPRESSDIR"
+  cp "`which $COMPRESSBIN`" "$COMPRESSDIR/"
+  LIBS="$LIBS `findlibs $COMPRESSBIN`"
+fi
+
+
+mkdir -p dev
+cd dev
+mknod urandom c 1 9
+cd ..
+
+
+cd etc
+cp "$CURDIR/examples/dgamelaunch.conf" .
+echo "Edit $CHROOT/etc/dgamelaunch.conf to suit your needs."
+[ -f /etc/localtime ] && cp /etc/localtime .
+cd ..
+
+
+cd bin
+cp "$CURDIR/ee" .
+cp "$CURDIR/virus" .
+echo "Copied text editors 'ee' and 'virus' to chroot."
+cd ..
+
+
+cp "$CURDIR/examples/dgl_menu_main_anon.txt" .
+cp "$CURDIR/examples/dgl_menu_main_user.txt" .
+cp "$CURDIR/examples/dgl_menu_watchmenu_help.txt" .
+cp "$CURDIR/examples/dgl-banner" .
+cp "$CURDIR/dgl-default-rcfile" "dgl-default-rcfile.nh343"
+chmod go+r dgl_menu_main_anon.txt dgl_menu_main_user.txt dgl-banner dgl-default-rcfile.nh343
+
+NHSUBDIR="`echo ${NHSUBDIR%/}`"
+NHSUBDIR="`echo ${NHSUBDIR#/}`"
+
+mkdir "$CHROOT/$NHSUBDIR"
+
+if [ -n "$NETHACKBIN" -a ! -e "$NETHACKBIN" ]; then
+  errorexit "Cannot find NetHack binary $NETHACKBIN"
+fi
+
+if [ -n "$NETHACKBIN" -a -e "$NETHACKBIN" ]; then
+  echo "Copying $NETHACKBIN"
+  cd "$NHSUBDIR"
+  NHBINFILE="`basename $NETHACKBIN`.`date +%Y%m%d`"
+  cp "$NETHACKBIN" "$NHBINFILE"
+  ln -s "$NHBINFILE" nethack
+  LIBS="$LIBS `findlibs $NETHACKBIN`"
+  cd "$CHROOT"
+fi
+
+
+NH_PLAYGROUND_FIXED="`echo ${NH_PLAYGROUND_FIXED%/}`"
+
+if [ -n "$NH_PLAYGROUND_FIXED" -a -d "$NH_PLAYGROUND_FIXED" ]; then
+  echo "Copying NetHack playground stuff."
+  NHFILES="*.lev *.dat cmdhelp data dungeon help hh history license opthelp options oracles recover rumors wizhelp"
+  for fil in $NHFILES; do
+    cp $NH_PLAYGROUND_FIXED/$fil "$CHROOT/$NHSUBDIR/"
+  done
+fi
+
+
+NH_VAR_PLAYGROUND="`echo ${NH_VAR_PLAYGROUND%/}`"
+NH_VAR_PLAYGROUND="`echo ${NH_VAR_PLAYGROUND#/}`"
+
+echo "Creating NetHack variable dir stuff."
+if [ -n "$NH_VAR_PLAYGROUND" ]; then
+  mkdir -p "$CHROOT/$NH_VAR_PLAYGROUND"
+  chown -R "$USRGRP" "$CHROOT/$NH_VAR_PLAYGROUND"
+fi
+mkdir -p "$CHROOT/$NH_VAR_PLAYGROUND/save"
+chown -R "$USRGRP" "$CHROOT/$NH_VAR_PLAYGROUND/save"
+touch "$CHROOT/$NH_VAR_PLAYGROUND/logfile"
+touch "$CHROOT/$NH_VAR_PLAYGROUND/perm"
+touch "$CHROOT/$NH_VAR_PLAYGROUND/record"
+touch "$CHROOT/$NH_VAR_PLAYGROUND/xlogfile"
+
+chown -R "$USRGRP" "$CHROOT/$NHSUBDIR"
+chown -R "$USRGRP" "$CHROOT/$NH_VAR_PLAYGROUND"
+
+
+
+# Curses junk
+if [ -n "$TERMDATA" ]; then
+    echo "Copying termdata files from $TERMDATA"
+    for termdat in $TERMDATA; do
+	mkdir -p "$CHROOT`dirname $termdat`"
+	if [ -d $termdat/. ]; then
+		cp -LR $termdat/. $CHROOT$termdat
+	else
+		cp $termdat $CHROOT`dirname $termdat`
+	fi
+    done
+fi
+
+
+LIBS=`for lib in $LIBS; do echo $lib; done | sort | uniq`
+echo "Copying libraries:" $LIBS
+for lib in $LIBS; do
+        mkdir -p "$CHROOT`dirname $lib`"
+        cp $lib "$CHROOT$lib"
+done
+
+
+echo "Finished."
+
+
