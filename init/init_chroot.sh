@@ -38,7 +38,7 @@ findlibs()
 {
   for i in "$@"; do
       if [ -z "`ldd "$i" | grep 'not a dynamic executable'`" ]; then
-         echo $(ldd "$i" | awk '{ print $3 }' | egrep -v ^'\(')
+         echo $(ldd "$i" | awk '{ print $3 }' | egrep -v ^'\(' | grep lib)
          echo $(ldd "$i" | grep 'ld-linux' | awk '{ print $1 }')
       fi
   done
