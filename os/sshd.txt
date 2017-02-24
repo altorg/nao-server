@@ -1,0 +1,13 @@
+Match User nethack
+        AcceptEnv DGLAUTH
+        AllowAgentForwarding no
+        AllowTcpForwarding no
+        ChrootDirectory /dgldir/
+        GSSAPIAuthentication no
+        HostbasedAuthentication no
+        KerberosAuthentication no
+        PasswordAuthentication yes
+        PermitEmptyPasswords yes
+        PermitTunnel no
+        PubkeyAuthentication no
+        X11Forwarding no
