@@ -1,0 +1,56 @@
+Instructions for ssh access with chroot.
+
+In this config, sshd performs the chroot, and dgamelaunch runs un-privileged
+inside the chroot.
+
+- This does not necesarily reflect how NAO is configured currently.
+- This config should coexist with telnet access (whereby telnetd launches dgl
+  as root, and dgl does the chroot and drops privilege), but this is untested.
+
+1. Build dgl and nethack binaries, and init-chroot according to the README.
+2. Create a symlink with a well-known name to the timestamped chroot:
+     cd /opt/nethack ; ln -s nao-chroot-<date>-<time> chroot
+
+3. Edit os/sshd.txt and set the ChrootDirectory to the full path of the link:
+
+ChrootDirectory /opt/nethack/chroot
+
+4. Append this to the END of your /etc/ssh/sshd_config and reload sshd.
+5. Add user 'nethack', and set home to /dgldir and shell to /dgamelaunch 
+6. Lock the password as we don't need it:
+     passwd -l nethack
+
+7. Edit /etc/pam.d/sshd and put the following 2 lines before the "@include
+   common-auth" line:
+
+# Allow nethack user via ssh without password
+auth            sufficient      pam_succeed_if.so  user = nethack
+
+8. mount a new devpts instance in the chroot, and create a symlink for ptmx:
+     mkdir -p /opt/nethack/chroot/dev/pts
+     mount devpts /opt/nethack/chroot/dev/pts -t devpts -o \
+         newinstance,ptmxmode=666
+     cd /opt/nethack/chroot/dev
+     ln -s pts/ptmx .
+
+9. Add this mount to /etc/fstab so it comes back on reboot, as follows:
+
+devpts  /opt/nethack/chroot/dev/pts  devpts  newinstance,ptmxmode=666  0  0
+
+10. move dgamelaunch.conf into chroot, but keep path the same, so dgl can be
+    launched from inside or outside the chroot:
+      mkdir -p /opt/nethack/chroot/opt/nethack
+      cd /opt/nethack
+      mv dgamelaunch.conf chroot/opt/nethack
+      ln -s chroot/opt/nethack/dgamelaunch.conf .
+
+11. Edit /etc/passwd and set the UID:GID for nethack to be 5:60 so it has
+    equivalence to the games user. These numbers need to match the shed_uid
+    and shed_gid in dgamelaunch.conf, and also have permission to write
+    anywhere the game needs to write (xlogfile, save, nethack rc files, etc).
+    These things are already configred by init-chroot.sh to be owned by games.
+    It should look like this:
+
+nethack:x:5:60:NetHack Player:/dgldir:/dgamelaunch
+
+12. Make any necessary/desired edits to dgamelaunch.conf, and test.
