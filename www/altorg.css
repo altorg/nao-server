@@ -1,0 +1,344 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	height:100%;
+	font-family: Arial !important;
+}
+
+.roundborder {
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	border-radius: 1em;
+}
+
+.error {
+    border: 3px solid red;
+    background-color: yellow;
+    color: black;
+    font-weight:bold;
+    padding:0.5em;
+}
+
+div.headerbar {
+	background-color: #f7ff64;
+	background-image: url(/images/ubar.png);
+	background-repeat: repeat-x;
+	background-position: 0 0;
+	width: 100%;
+	height: 27px;
+	margin: 0;
+	padding: 0;
+}
+
+img.header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 0;
+	margin: 0;
+	background-image: url(/images/altorgheader.png);
+	background-repeat: no-repeat;
+	width: 130px;
+	height: 27px;
+	border: none;
+}
+
+a.header {
+	background-color: #f7ff64;
+	margin: 0;
+}
+
+div.body {
+	background-color: #ffffff;
+	margin: 0;
+	padding-left: 50px;
+	padding-right: 50px;
+	padding-bottom: 2em;
+	min-height:89%;
+}
+
+h1,h2,h3 {
+	font-weight: bold;
+	font-size: 100%;
+	margin: 0;
+	padding-bottom: 0;
+	padding-top: 25px;
+}
+
+p.lastupdate {
+	text-align: right;
+	font-size: smaller;
+	font-style: italic;
+}
+
+.pagecontrols {
+    padding:0.25em;
+    width:50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pagecontrols a,
+.pagecontrols span {
+    width:20%;
+    display: table-cell;
+    border: 1px solid #e0e0e0;
+    text-align:center;
+    padding-left:2em;
+    padding-right:2em;
+}
+.pagecontrols a:hover {
+    background-color: #d0d0d0;
+}
+
+table {
+	padding:0.25em;
+	border:1px solid #c0c0c0;
+	margin:1em;
+}
+
+td {
+	padding-left:0.25em;
+	padding-right:0.25em;
+}
+
+.body:not(.dudley) tr:nth-child(odd) td {
+	background-color: #f0f0f0;
+}
+
+.body:not(.dudley) tr:hover td {
+	background-color: #e0e0e0;
+}
+
+tr:nth-child(even) td.gender {
+	background-color: #e8e8e8;
+}
+
+td.score {
+	text-align: right;
+}
+
+tr:nth-child(even) td.score {
+	background-color: #e8e8e8;
+}
+
+table.top-race, table.top-role {
+	width: 100%;
+}
+
+p.news {
+	font-size: small;
+	color: #cccccc;
+}
+
+p.more {
+	text-align: right;
+}
+
+p.code {
+	font-family: "Courier New", Courier, monospace;
+}
+
+span.note {
+	color: red;
+}
+
+span.new {
+	font-weight: bold;
+}
+
+div.announcebar {
+	background-color: #eeccee;
+	padding: 10px;
+}
+
+div.prefs {
+	text-align: right;
+}
+
+div.leftbar {
+	width: 30%;
+	float: right;
+	padding: 0;
+}
+
+div.newsbar {
+	background-color: #000000;
+	padding: 10px;
+	margin: 20px;
+}
+
+div.playnow {
+	background-color: #000000;
+	padding: 5px;
+	margin: 20px;
+	width: 30%;
+}
+
+div.playnow a:link { color: #9999ff; }
+div.playnow a:visited { color: #9999ff; }
+div.playnow a:hover { color: #9999ff; }
+div.playnow a:active { color: #9999ff; }
+
+div.newsbar a:link { color: #9999ff; }
+div.newsbar a:visited { color: #9999ff; }
+div.newsbar a:hover { color: #9999ff; }
+div.newsbar a:active { color: #9999ff; }
+
+div.stats {
+	background-color: #ddddcc;
+	padding: 10px;
+	margin: 20px;
+}
+
+div.valid {
+	width: 100%;
+	background-color: #ffffff;
+	text-align: right;
+}
+
+img.valid {
+	border: 0;
+	width: 88px;
+	height: 31px;
+	padding: 3px;
+}
+
+div.index {
+	padding: 0px;
+}
+
+div.footertxt {
+	background-color: #ffffff;
+	margin: 0;
+	padding-top: 1em;
+	padding-bottom: 0;
+	font-size: smaller;
+	font-style: italic;
+	text-align: center;
+}
+
+div.footerbar {
+	background-color: #f7ff64;
+	background-image: url(/images/lbar.png);
+	margin: 0;
+	width: 100%;
+	height: 20px;
+}
+
+p.plronline {
+	color: green;
+}
+
+p.plroffline {
+	color: red;
+}
+
+div.fullwide > table {
+    width: 100%;
+}
+
+/*
+span.desc {
+     display: none;
+}
+
+li:hover .desc,
+td:hover .desc {
+	display: block;
+	position: absolute;
+	margin-left: 30px;
+	border: 1px solid black;
+	padding: 5px;
+	background-color: white;
+	z-index:1;
+}
+*/
+
+span.rolecount {
+    display: none;
+}
+
+td.mostasc {
+	background-color: #30e030 !important;
+}
+
+caption {
+	font-weight: bold;
+}
+
+div.letterlinks {
+	display: inline;
+}
+div.letterlinks a {
+	padding: 0 0.5em;
+}
+div.letterlinks a:hover {
+	background-color: #50e050;
+}
+
+span.ratingbar {
+        display: block;
+/*        background-color: red;*/
+        color: black;
+        position: relative;
+	padding: 0;
+        border: none;
+        width: 100%;
+}
+
+span.rating {
+        display: block;
+	position: relative;
+        background-color: #50e050;
+}
+
+span.ratingtext {
+        display: block;
+        position: absolute;
+        padding: 0;
+        width: 100%;
+        top: 0;
+        left: 0;
+}
+
+
+dt {
+    border-bottom: 1px solid #dcc;
+    font-weight: bold;
+    padding-top: 1em;
+}
+dd ol {
+    padding-left: 0;
+}
+dd li {
+    color: #888;
+}
+dd li > span {
+    color: #000000;
+}
+
+.rcfilehtml .comment {
+    color: #a0a0a0;
+}
+
+select:focus,
+textarea:focus,
+input:focus {
+  background-color: #fffff8;
+  outline: 1px solid #ffff80;
+}
+
+table.irc {
+    font-family: monospace;
+    font-size: smaller;
+}
+table.irc .nick {
+    vertical-align: top;
+    font-weight: bold;
+}
+table.irc .datechange {
+    text-align: left;
+    background-color: #aef;
+    padding:0.25em;
+}
