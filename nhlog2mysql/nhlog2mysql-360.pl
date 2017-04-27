@@ -66,6 +66,8 @@ sub insertxlogline
 $dbh = DBI->connect("dbi:mysql:xlogfiledb:localhost","root","",$dbargs) or die("Unable to connect: $DBI::errstr\n");
 #print "Deleting all rows from current xlogfile.db\n";
 # $dbh->do("delete from xlogfile_360");
+# sleep 5 seconds to give time for other script to delete rows from table before these get inserted
+sleep(5);
 open(INPUT, "<$xlogfile");
 while(<INPUT>)
 {
