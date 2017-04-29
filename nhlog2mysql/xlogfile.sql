@@ -33,7 +33,7 @@ create table xlogfile (
 create index idx_points on xlogfile(points);
 create index idx_deathdate on xlogfile(deathdate);
 create index idx_name on xlogfile(name);
-create index idx_death on xlogfile(death);
+create index idx_death on xlogfile(death(100));
 create index idx_endtime on xlogfile(endtime);
 create index idx_version on xlogfile(version);
 create index idx_deathdnum on xlogfile(deathdnum);
