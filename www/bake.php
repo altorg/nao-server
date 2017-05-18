@@ -18,7 +18,7 @@ function piemangle1($plr=NULL, $field)
 {
     global $nh_xlogfile_db;
     /*$db = new PDO("sqlite:".$nh_xlogfile_db);*/
-    $db = new PDO("mysql:host=localhost;dbname=xlogfiledb","rodney","Y3nd0r");
+    $db = new PDO("mysql:host=localhost;dbname=xlogfiledb","USERNAME","PASSWORD");
     if ($plr) {
 	$sql = "select ".$field.",count(*) from xlogfile where name=\"".$plr."\" group by ".$field;
     } else {
